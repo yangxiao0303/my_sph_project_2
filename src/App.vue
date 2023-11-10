@@ -1,7 +1,8 @@
 <template>
   <div>
     <Header></Header>
-    <div>router component</div>
+    <!-- the exit of route components -->
+    <router-view></router-view>
     <Footer></Footer>
   </div>
 </template>
