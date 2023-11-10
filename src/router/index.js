@@ -22,7 +22,9 @@ export default new VueRouter({
       }
     },
     {
-      path: '/Search',
+      name: 'search',
+      // may or maynot pass the variable
+      path: '/search/:keyword?',
       component: Search,
       meta: {
         isActive: true
