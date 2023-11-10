@@ -3,7 +3,7 @@
     <Header></Header>
     <!-- the exit of route components -->
     <router-view></router-view>
-    <Footer></Footer>
+    <Footer v-show="$route.meta.isActive"></Footer>
   </div>
 </template>
 

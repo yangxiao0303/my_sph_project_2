@@ -15,20 +15,32 @@ export default new VueRouter({
   // config the routes
   routes: [
     {
-      path: '/Home', 
-      component: Home
+      path: '/Home',
+      component: Home,
+      meta: {
+        isActive: true
+      }
     },
     {
-      path: '/Search', 
-      component: Search
+      path: '/Search',
+      component: Search,
+      meta: {
+        isActive: true
+      }
     },
     {
-      path: '/login', 
-      component: Login
+      path: '/login',
+      component: Login,
+      meta: {
+        isActive: false
+      }
     },
     {
-      path: '/register', 
-      component: Register
+      path: '/register',
+      component: Register,
+      meta: {
+        isActive: false
+      }
     },
   ]
 })
