@@ -1,11 +1,11 @@
 // import vue core code and VueRouter
 import Vue from "vue";
-import VueRouter from "vue-router"
+import VueRouter from "vue-router";
 // import all the router components
-import Home from '@/pages/home'
-import Search from '@/pages/search'
-import Login from '@/pages/login'
-import Register from '@/pages/register'
+import Home from "@/pages/home";
+import Search from "@/pages/search";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
 
 // install plugin
 Vue.use(VueRouter);
@@ -15,34 +15,38 @@ export default new VueRouter({
   // config the routes
   routes: [
     {
-      path: '/Home',
+      path: "/Home",
       component: Home,
       meta: {
-        isActive: true
-      }
+        isActive: true,
+      },
     },
     {
-      name: 'search',
+      name: "search",
       // may or maynot pass the variable
-      path: '/search/:keyword?',
+      path: "/search/:keyword?",
       component: Search,
       meta: {
-        isActive: true
-      }
+        isActive: true,
+      },
     },
     {
-      path: '/login',
+      path: "/login",
       component: Login,
       meta: {
-        isActive: false
-      }
+        isActive: false,
+      },
     },
     {
-      path: '/register',
+      path: "/register",
       component: Register,
       meta: {
-        isActive: false
-      }
+        isActive: false,
+      },
     },
-  ]
-})
+    { 
+      path: "/", 
+      redirect: "/home" 
+    },
+  ],
+});
