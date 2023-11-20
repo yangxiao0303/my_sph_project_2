@@ -95,6 +95,9 @@
 <script>
 export default {
   name: "Floor",
+  mounted() {
+    this.$store.dispatch('reqFloor');
+  },
 };
 </script>
 

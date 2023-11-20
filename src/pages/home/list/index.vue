@@ -3,28 +3,16 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
+          <Swiper :options="swiperOptions" ref="swiper">
+            <SwiperSlide  v-for="img in bannerList" :key="img.id">
+              <img :src="img.imgUrl" />
+            </SwiperSlide>
+          </Swiper>
 
           <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-prev"></div>
+          <div class="swiper-pagination" slot="pagination"></div>
       </div>
       <div class="right">
         <div class="news">
@@ -100,8 +88,51 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import { mapState } from "vuex";
 export default {
-  name: "List",
+    name: "List",
+    data() {
+      return {
+        swiperOptions:{
+          navigation: {
+            // nav-buttons
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+          },
+          loop: true,
+          pagination:{
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          autoplay:{
+            delay: 1500,
+            stopOnLastSlide: false,
+            disableOnInteraction: true,
+          },
+          effect: 'cube',
+        }
+      }
+    },
+    mounted() {
+        // dispatch requst to action to get the data for banner
+        this.$store.dispatch("reqBanner");
+        // carousel mouseenter 
+        // the call back cant use normal function 'this' is the event source
+        this.$refs.swiper.$el.onmouseenter = () => {
+        this.$refs.swiper.$swiper.autoplay.stop();
+      };
+      //鼠标离开
+      this.$refs.swiper.$el.onmouseleave = () => {
+        this.$refs.swiper.$swiper.autoplay.start();
+      };
+    },
+    computed: {
+        ...mapState({
+            bannerList: (state) => state.home.bannerList,
+        }),
+    },
+    components: { SwiperSlide, Swiper }
 };
 </script>
 

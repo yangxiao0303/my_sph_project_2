@@ -10,13 +10,20 @@ import router from '@/router'
 import store from '@/store'
 // import the reset css file
 import '@/assets/css/reset.css'
+// import swiper related components
+import { Swiper,SwiperSlide } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.min.css'
+// import mockjs
+import "@/mock/mockServe"
 
 // asign full-scale components
 Vue.component(Header.name,Header);
 Vue.component(Footer.name,Footer);
 Vue.component(TypeNav.name,TypeNav);
+Vue.component("Swiper",Swiper);
+Vue.component("SwiperSlide",SwiperSlide);
 
-
+// 
 
 Vue.config.productionTip = false
 
