@@ -3,7 +3,6 @@ export default {
   actions:{
     async getTypeNav({commit,dispatch,state,getters}){
       const result = await reqTypeCategory();
-      console.log(result.data);
       commit('GETTYPENAV',result.data);
     }
   },
