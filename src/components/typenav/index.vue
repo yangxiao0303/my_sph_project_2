@@ -5,7 +5,7 @@
         <h2 class="all">全部商品分类</h2>
 
         <div class="sort">
-          <div class="all-sort-list2">
+          <div class="all-sort-list2" @click="goSearch">
             <div
               class="item"
               v-for="(c1, index) in categoryList"
@@ -15,7 +15,11 @@
                 @mouseenter="handleIndex(index)"
                 :class="{ active: activeIndex === index }"
               >
-                <a>{{ c1.categoryName }}</a>
+                <a
+                  :data-categoryName="c1.categoryName"
+                  :data-category1Id="c1.catagoryId"
+                  >{{ c1.categoryName }}</a
+                >
               </h3>
               <div class="item-list clearfix">
                 <div class="subitem">
@@ -25,11 +29,19 @@
                     :key="c2.categoryId"
                   >
                     <dt>
-                      <a>{{ c2.categoryName }}</a>
+                      <a
+                        :data-categoryName="c2.categoryName"
+                        :data-category2Id="c2.catagoryId"
+                        >{{ c2.categoryName }}</a
+                      >
                     </dt>
                     <dd>
                       <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                        <a>{{ c3.categoryName }}</a>
+                        <a
+                          :data-categoryName="c3.categoryName"
+                          :data-category3Id="c3.catagoryId"
+                          >{{ c3.categoryName }}</a
+                        >
                       </em>
                     </dd>
                   </dl>
@@ -70,9 +82,33 @@ export default {
     handleIndex(index) {
       this.activeIndex = index;
     },
-    leaveHandler(){
+    leaveHandler() {
       this.activeIndex = -1;
-    }
+    },
+    goSearch(event) {
+      // custom attrbute are all in lowcase leters
+      // destructure all custom attributes
+      const { categoryname, category1id, category2id, category3id } =
+        event.target.dataset;
+      // when click on a tag
+      if (categoryname) {
+        // request config obj
+        const locations = {
+          name: "search",
+          query: { categoryName: categoryname },
+        };
+        if (category1id) {
+          // asign the categoryid complite the query config obj
+          locations.query.category1Id = category1id;
+        } else if (category2id) {
+          locations.query.category2Id = category2id;
+        } else {
+          locations.query.category3Id = category3id;
+        }
+        // send it to the route
+        this.$router.push(locations);
+      }
+    },
   },
   computed: {
     ...mapState({
