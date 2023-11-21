@@ -10,6 +10,23 @@ import Register from "@/pages/register";
 // install plugin
 Vue.use(VueRouter);
 
+// wraper of push/replace method
+const push = VueRouter.prototype.push;
+const replace = VueRouter.prototype.replace;
+
+// redefine the push method
+VueRouter.prototype.push = function (location) {
+  // this has to point to the instance of VueRouter
+  // call method the first argument points to the new direction
+  push.call(this, location, () => {},()=>{})
+}
+
+// redefine the replace method
+VueRouter.prototype.REPLACE = function (location) {
+  // apply
+  replace.apply(this,[location,()=>{},()=>{}])
+}
+
 // create instance of VueRouter and expose
 export default new VueRouter({
   // config the routes
