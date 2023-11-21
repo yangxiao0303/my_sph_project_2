@@ -11,7 +11,7 @@
     <!-- 猜你喜欢 -->
     <Like />
     <!-- 楼层组件 -->
-    <Floor v-for="item in 2" :key="item" />
+    <Floor />
     <!-- 商标 -->
     <Brand />
   </div>
