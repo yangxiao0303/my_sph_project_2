@@ -2,54 +2,55 @@
   <div class="type-nav">
     <div class="container">
       <div @mouseleave="leaveHandler">
-        <h2 class="all">全部商品分类</h2>
-
-        <div class="sort">
-          <div class="all-sort-list2" @click="goSearch">
-            <div
-              class="item"
-              v-for="(c1, index) in categoryList"
-              :key="c1.categoryId"
-            >
-              <h3
-                @mouseenter="handleIndex(index)"
-                :class="{ active: activeIndex === index }"
+        <h2 class="all" @mouseenter="changeShow">全部商品分类</h2>
+        <transition name="sort">
+          <div class="sort" v-show="isShow">
+            <div class="all-sort-list2" @click="goSearch">
+              <div
+                class="item"
+                v-for="(c1, index) in categoryList"
+                :key="c1.categoryId"
               >
-                <a
-                  :data-categoryName="c1.categoryName"
-                  :data-category1Id="c1.catagoryId"
-                  >{{ c1.categoryName }}</a
+                <h3
+                  @mouseenter="handleIndex(index)"
+                  :class="{ active: activeIndex === index }"
                 >
-              </h3>
-              <div class="item-list clearfix">
-                <div class="subitem">
-                  <dl
-                    class="fore"
-                    v-for="c2 in c1.categoryChild"
-                    :key="c2.categoryId"
+                  <a
+                    :data-categoryName="c1.categoryName"
+                    :data-category1Id="c1.catagoryId"
+                    >{{ c1.categoryName }}</a
                   >
-                    <dt>
-                      <a
-                        :data-categoryName="c2.categoryName"
-                        :data-category2Id="c2.catagoryId"
-                        >{{ c2.categoryName }}</a
-                      >
-                    </dt>
-                    <dd>
-                      <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                </h3>
+                <div class="item-list clearfix">
+                  <div class="subitem">
+                    <dl
+                      class="fore"
+                      v-for="c2 in c1.categoryChild"
+                      :key="c2.categoryId"
+                    >
+                      <dt>
                         <a
-                          :data-categoryName="c3.categoryName"
-                          :data-category3Id="c3.catagoryId"
-                          >{{ c3.categoryName }}</a
+                          :data-categoryName="c2.categoryName"
+                          :data-category2Id="c2.catagoryId"
+                          >{{ c2.categoryName }}</a
                         >
-                      </em>
-                    </dd>
-                  </dl>
+                      </dt>
+                      <dd>
+                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                          <a
+                            :data-categoryName="c3.categoryName"
+                            :data-category3Id="c3.catagoryId"
+                            >{{ c3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -72,11 +73,14 @@ export default {
   data() {
     return {
       activeIndex: -1,
+      isShow: true,
     };
   },
   // when component is mounted dispatch action
   mounted() {
     this.$store.dispatch("getTypeNav");
+    // nav bar
+    if (this.$route.path != "/home") this.isShow = false;
   },
   methods: {
     handleIndex(index) {
@@ -84,6 +88,9 @@ export default {
     },
     leaveHandler() {
       this.activeIndex = -1;
+      if (this.$route.path !== "/home") {
+        this.isShow = false;
+      }
     },
     goSearch(event) {
       // custom attrbute are all in lowcase leters
@@ -108,6 +115,9 @@ export default {
         // send it to the route
         this.$router.push(locations);
       }
+    },
+    changeShow() {
+      this.isShow = true;
     },
   },
   computed: {
@@ -154,7 +164,7 @@ export default {
       left: 0;
       top: 45px;
       width: 210px;
-      height: 461px;
+      // height: 461px;
       position: absolute;
       background: #fafafa;
       z-index: 999;
@@ -239,5 +249,18 @@ export default {
       }
     }
   }
+}
+.sort-enter {
+  opacity: 0;
+  height: 0px;
+}
+
+.sort-enter-active {
+  transition: all .5s;
+}
+
+.sort-enter-to {
+  opacity: 1;
+  height: 461px;
 }
 </style>
